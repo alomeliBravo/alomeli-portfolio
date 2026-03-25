@@ -1,0 +1,312 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
+
+import Carousel from '../../../components/Carousel.astro';
+import ContactCTA from '../../../components/ContactCTA.astro';
+import Icon from '../../../components/Icon.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+interface Props {
+	entry: CollectionEntry<'work'>;
+}
+
+export async function getStaticPaths() {
+	const work = await getCollection('work');
+	return work
+		.filter((e) => e.id.startsWith('es/'))
+		.map((entry) => ({
+			params: { slug: entry.id.replace('es/', '') },
+			props: { entry },
+		}));
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const deviconMap: Record<string, string> = {
+	'NestJS': 'nestjs-plain',
+	'PostgreSQL': 'postgresql-plain',
+	'Redis': 'redis-plain',
+	'Docker': 'docker-plain',
+	'AWS S3': 'amazonwebservices-plain-wordmark',
+	'Java': 'java-plain',
+	'Spring Boot': 'spring-plain',
+	'JUnit': 'junit-plain',
+	'MockMVC': '',
+	'Node.js': 'nodejs-plain',
+	'Express': 'express-original',
+	'MongoDB': 'mongodb-plain',
+	'Angular': 'angular-plain',
+	'TypeScript': 'typescript-plain',
+	'JavaScript': 'javascript-plain',
+	'WebSockets': '',
+	'Mustache': '',
+	'Spark Framework': '',
+	'Arquitectura Hexagonal': '',
+	'Testing': '',
+	'Tiempo real': '',
+};
+---
+
+<BaseLayout title={`${entry.data.title} | Angel Lomelí`} description={entry.data.description}>
+	<div class="stack gap-20">
+		<div class="stack gap-10">
+
+			<header class="wrapper">
+				<a class="back-link" href="/es/work/">
+					<Icon icon="arrow-left" /> {t('work.back')}
+				</a>
+				<h1 class="project-title">{entry.data.title}</h1>
+				<p class="project-description">{entry.data.description}</p>
+			</header>
+
+			<main class="wrapper">
+				<div class="project-layout">
+
+					<div class="project-content">
+						<div class="content">
+							<Content />
+						</div>
+						{(entry.data.images && entry.data.images.length > 0) ? (
+							<div class="media-wrapper">
+								<Carousel images={entry.data.images} alt={entry.data.title} />
+							</div>
+						) : entry.data.img ? (
+							<img src={entry.data.img} alt={entry.data.img_alt || entry.data.title} class="project-img" />
+						) : null}
+					</div>
+
+					<aside class="project-sidebar">
+						<div class="sidebar-section">
+							<p class="sidebar-label">{t('work.sidebar.technologies')}</p>
+							<div class="sidebar-pills">
+								{entry.data.tags.map((tag) => {
+									const icon = deviconMap[tag];
+									return (
+										<span class="sidebar-pill">
+											{icon ? <i class={`devicon-${icon} colored`}></i> : null}
+											{tag}
+										</span>
+									);
+								})}
+							</div>
+						</div>
+
+						{entry.data.repo && (
+							<div class="sidebar-section">
+								<a href={entry.data.repo} target="_blank" rel="noopener noreferrer" class="repo-link">
+									<Icon icon="github-logo" size="1.2em" />
+									{t('work.sidebar.repo')}
+								</a>
+							</div>
+						)}
+					</aside>
+
+				</div>
+			</main>
+		</div>
+
+		<ContactCTA />
+	</div>
+</BaseLayout>
+
+<style>
+	header {
+		padding-bottom: 2rem;
+		border-bottom: 1px solid var(--gray-800);
+	}
+
+	.back-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		color: var(--gray-400);
+		text-decoration: none;
+		font-size: var(--text-sm);
+		margin-bottom: 1.25rem;
+		transition: color var(--theme-transition);
+	}
+
+	.back-link:hover {
+		color: var(--gray-0);
+	}
+
+	.project-title {
+		font-size: var(--text-3xl);
+		color: var(--gray-0);
+		line-height: 1.1;
+		margin-bottom: 0.75rem;
+	}
+
+	.project-description {
+		font-size: var(--text-md);
+		color: var(--gray-300);
+		max-width: 65ch;
+		line-height: 1.7;
+	}
+
+	.project-layout {
+		display: flex;
+		flex-direction: column;
+		gap: 3rem;
+	}
+
+	.project-content {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		min-width: 0;
+	}
+
+	.media-wrapper {
+		width: 100%;
+	}
+
+	.project-img {
+		width: 100%;
+		max-width: 580px;
+		margin-inline: auto;
+		display: block;
+		border-radius: 1rem;
+		border: 1px solid var(--gray-800);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.content :global(* + *) {
+		margin-top: 1rem;
+	}
+
+	.content :global(h2) {
+		font-size: var(--text-xl);
+		color: var(--gray-0);
+		margin-top: 2rem;
+		margin-bottom: 0.25rem;
+	}
+
+	.content :global(p) {
+		color: var(--gray-300);
+		line-height: 1.7;
+	}
+
+	.content :global(strong) {
+		color: var(--gray-100);
+		font-weight: 600;
+	}
+
+	.content :global(blockquote) {
+		padding: 0.75rem 1.25rem;
+		border-left: 3px solid var(--accent-regular);
+		background: var(--gray-999_40);
+		border-radius: 0 0.5rem 0.5rem 0;
+		margin: 1.5rem 0;
+	}
+
+	.content :global(blockquote p) {
+		color: var(--gray-400);
+		font-size: var(--text-sm);
+		margin: 0;
+	}
+
+	.content :global(a) {
+		color: var(--accent-regular);
+		text-decoration: none;
+	}
+
+	.content :global(a:hover) {
+		text-decoration: underline;
+	}
+
+	.project-sidebar {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	.sidebar-section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	.sidebar-label {
+		font-size: var(--text-md);
+		font-weight: 700;
+		color: var(--gray-0);
+		text-align: center;
+		letter-spacing: 0.02em;
+	}
+
+	.sidebar-pills {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.6rem;
+	}
+
+	.sidebar-pill {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 0.55rem 0.75rem;
+		border-radius: 0.75rem;
+		border: 1px solid var(--accent-regular);
+		background: var(--accent-overlay);
+		color: var(--gray-100);
+		font-size: var(--text-sm);
+		font-family: var(--font-body);
+		font-weight: 500;
+		text-align: center;
+	}
+
+	.sidebar-pill i {
+		font-size: 1.1rem;
+		line-height: 1;
+		flex-shrink: 0;
+	}
+
+	.repo-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.6rem 1.25rem;
+		border-radius: 999rem;
+		border: 1px solid var(--gray-800);
+		background: var(--gradient-subtle);
+		color: var(--gray-200);
+		text-decoration: none;
+		font-size: var(--text-sm);
+		font-weight: 500;
+		transition: border-color var(--theme-transition), color var(--theme-transition);
+	}
+
+	.repo-link:hover {
+		border-color: var(--gray-600);
+		color: var(--gray-0);
+	}
+
+	@media (min-width: 50em) {
+		.project-title {
+			font-size: var(--text-4xl);
+		}
+
+		.project-layout {
+			display: grid;
+			grid-template-columns: 1fr 280px;
+			gap: 5rem;
+			align-items: start;
+		}
+
+		.project-sidebar {
+			position: sticky;
+			top: 2rem;
+		}
+
+		.sidebar-pills {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+</style>

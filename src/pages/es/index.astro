@@ -1,15 +1,15 @@
 ---
 import { getCollection } from 'astro:content';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import CallToAction from '../components/CallToAction.astro';
-import ContactCTA from '../components/ContactCTA.astro';
-import Grid from '../components/Grid.astro';
-import Hero from '../components/Hero.astro';
-import Icon from '../components/Icon.astro';
-import Pill from '../components/Pill.astro';
-import PortfolioPreview from '../components/PortfolioPreview.astro';
-import Skills from '../components/Skills.astro';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import CallToAction from '../../components/CallToAction.astro';
+import ContactCTA from '../../components/ContactCTA.astro';
+import Grid from '../../components/Grid.astro';
+import Hero from '../../components/Hero.astro';
+import Icon from '../../components/Icon.astro';
+import Pill from '../../components/Pill.astro';
+import PortfolioPreview from '../../components/PortfolioPreview.astro';
+import Skills from '../../components/Skills.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -171,8 +171,6 @@ const projects = (await getCollection('work'))
 		}
 	}
 
-	/* ====================================================== */
-
 	.section {
 		display: grid;
 		gap: 2rem;
@@ -214,7 +212,6 @@ const projects = (await getCollection('work'))
 		font-size: var(--text-2xl);
 	}
 
-	/* ─── Stack técnico home ─────────────────────────────────────────── */
 	.techstack-section {
 		display: flex;
 		flex-direction: column;
