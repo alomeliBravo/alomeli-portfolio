@@ -1,0 +1,484 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import ContactCTA from '../components/ContactCTA.astro';
+import Hero from '../components/Hero.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t('about.meta.title')} description={t('about.meta.description')}>
+	<div class="stack gap-20">
+		<main class="wrapper about">
+			<Hero
+				title={t('about.hero.title')}
+				tagline={t('about.hero.tagline')}
+			/>
+
+			<!-- Story -->
+			<section>
+				<h2 class="section-title">{t('about.story.title')}</h2>
+				<div class="content">
+					<p>{t('about.story.p1')}</p>
+					<p>{t('about.story.p2')}</p>
+				</div>
+			</section>
+
+			<!-- Experience + Education in same row on desktop -->
+			<div class="two-col-wrapper">
+
+			<section>
+				<h2 class="section-title">{t('about.experience.title')}</h2>
+				<div class="content">
+					<div class="experience-list">
+
+						<div class="experience-item">
+							<div class="experience-header">
+								<span class="experience-role">{t('exp.role.fullstack')}</span>
+								<span class="experience-period">{t('exp.period.locmex')}</span>
+							</div>
+							<span class="experience-company">Locmex</span>
+							<ul class="experience-bullets">
+								<li>{t('exp.locmex.b1')}</li>
+								<li>{t('exp.locmex.b2')}</li>
+								<li>{t('exp.locmex.b3')}</li>
+							</ul>
+						</div>
+
+						<div class="experience-item">
+							<div class="experience-header">
+								<span class="experience-role">{t('exp.role.backend')}</span>
+								<span class="experience-period">{t('exp.period.technoready')}</span>
+							</div>
+							<span class="experience-company">TechnoReady Foundation</span>
+							<ul class="experience-bullets">
+								<li>{t('exp.technoready.b1')}</li>
+								<li>{t('exp.technoready.b2')}</li>
+								<li>{t('exp.technoready.b3')}</li>
+							</ul>
+						</div>
+
+						<div class="experience-item">
+							<div class="experience-header">
+								<span class="experience-role">{t('exp.role.it')}</span>
+								<span class="experience-period">{t('exp.period.sti')}</span>
+							</div>
+							<span class="experience-company">Grupo STI</span>
+							<ul class="experience-bullets">
+								<li>{t('exp.sti.b1')}</li>
+								<li>{t('exp.sti.b2')}</li>
+								<li>{t('exp.sti.b3')}</li>
+							</ul>
+						</div>
+
+						<div class="experience-item">
+							<div class="experience-header">
+								<span class="experience-role">{t('exp.role.sales')}</span>
+								<span class="experience-period">{t('exp.period.justgaming')}</span>
+							</div>
+							<span class="experience-company">Just Gaming</span>
+							<ul class="experience-bullets">
+								<li>{t('exp.justgaming.b1')}</li>
+								<li>{t('exp.justgaming.b2')}</li>
+								<li>{t('exp.justgaming.b3')}</li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+			</section>
+
+			<!-- Education -->
+			<section>
+				<h2 class="section-title">{t('about.education.title')}</h2>
+				<div class="content">
+
+					<div class="education-uni">
+						<span class="education-title">Universidad Politécnica de Sinaloa</span>
+						<span class="education-period">2022 – 2025</span>
+					</div>
+
+					<div class="education-divider"></div>
+
+					<p class="education-label">{t('about.education.certs.label')}</p>
+
+					<ul class="cert-list">
+						<li class="cert-item">
+							<span class="cert-name">{t('about.education.cert.sql')}</span>
+							<a
+								href="https://udemy-certificate.s3.amazonaws.com/pdf/UC-fd49f1fe-3b67-4f48-a0c2-914e364df247.pdf"
+								data-cert="sql-postgresql"
+								class="cert-link"
+								target="_blank"
+								rel="noopener noreferrer"
+							>{t('about.education.viewCert')}</a>
+						</li>
+						<li class="cert-item">
+							<span class="cert-name">{t('about.education.cert.js')}</span>
+							<a
+								href="https://udemy-certificate.s3.amazonaws.com/pdf/UC-6b7d6c43-0ac8-43b8-a6c5-96041ac36bf3.pdf"
+								data-cert="javascript-moderno"
+								class="cert-link"
+								target="_blank"
+								rel="noopener noreferrer"
+							>{t('about.education.viewCert')}</a>
+						</li>
+						<li class="cert-item">
+							<span class="cert-name">{t('about.education.cert.solid')}</span>
+							<a
+								href="https://udemy-certificate.s3.amazonaws.com/pdf/UC-e9824fb6-6824-461a-ac27-9c7fabb4d7f7.pdf"
+								data-cert="solid-clean-code"
+								class="cert-link"
+								target="_blank"
+								rel="noopener noreferrer"
+							>{t('about.education.viewCert')}</a>
+						</li>
+						<li class="cert-item">
+							<span class="cert-name">{t('about.education.cert.nest')}</span>
+							<a
+								href="https://udemy-certificate.s3.amazonaws.com/pdf/UC-1efdc393-cc63-4848-830a-0e5da278df91.pdf"
+								data-cert="nestjs-backend"
+								class="cert-link"
+								target="_blank"
+								rel="noopener noreferrer"
+							>{t('about.education.viewCert')}</a>
+						</li>
+					</ul>
+
+					<div class="education-divider"></div>
+
+					<p class="education-label">{t('about.languages.label')}</p>
+					<div class="lang-about-pills">
+						<span class="lang-about-pill">{t('about.languages.spanish')}</span>
+						<span class="lang-about-pill">{t('about.languages.english')}</span>
+					</div>
+				</div>
+			</section>
+
+			</div> <!-- /two-col-wrapper -->
+
+			<!-- Tech stack -->
+			<section class="stack-section">
+				<h2 class="section-title stack-title">{t('about.stack.title')}</h2>
+				<div class="content stack-content">
+					<div class="stack-columns">
+					<div class="stack-group">
+						<p class="stack-label">{t('about.stack.backend')}</p>
+						<div class="stack-pills">
+							<span class="stack-pill"><i class="devicon-nestjs-plain colored"></i> NestJS</span>
+							<span class="stack-pill"><i class="devicon-spring-plain colored"></i> Spring Boot</span>
+							<span class="stack-pill"><i class="devicon-nodejs-plain colored"></i> Node.js</span>
+							<span class="stack-pill"><i class="devicon-express-original"></i> Express</span>
+							<span class="stack-pill"><i class="devicon-java-plain colored"></i> Java</span>
+						</div>
+					</div>
+
+					<div class="stack-group">
+						<p class="stack-label">{t('about.stack.frontend')}</p>
+						<div class="stack-pills">
+							<span class="stack-pill"><i class="devicon-angular-plain colored"></i> Angular</span>
+							<span class="stack-pill"><i class="devicon-javascript-plain colored"></i> JavaScript</span>
+							<span class="stack-pill"><i class="devicon-typescript-plain colored"></i> TypeScript</span>
+						</div>
+					</div>
+
+					<div class="stack-group">
+						<p class="stack-label">{t('about.stack.databases')}</p>
+						<div class="stack-pills">
+							<span class="stack-pill"><i class="devicon-postgresql-plain colored"></i> PostgreSQL</span>
+							<span class="stack-pill"><i class="devicon-mongodb-plain colored"></i> MongoDB</span>
+							<span class="stack-pill"><i class="devicon-redis-plain colored"></i> Redis</span>
+						</div>
+					</div>
+
+					<div class="stack-group">
+						<p class="stack-label">{t('about.stack.devops')}</p>
+						<div class="stack-pills">
+							<span class="stack-pill"><i class="devicon-docker-plain colored"></i> Docker</span>
+							<span class="stack-pill"><i class="devicon-amazonwebservices-plain-wordmark colored"></i> AWS S3</span>
+							<span class="stack-pill"><i class="devicon-git-plain colored"></i> Git</span>
+						</div>
+					</div>
+
+					<div class="stack-group">
+						<p class="stack-label">{t('about.stack.testing')}</p>
+						<div class="stack-pills">
+							<span class="stack-pill"><i class="devicon-junit-plain colored"></i> JUnit</span>
+							<span class="stack-pill"><i class="devicon-cucumber-plain colored"></i> Cucumber</span>
+							<span class="stack-pill">MockMVC</span>
+						</div>
+					</div>
+					</div> <!-- /stack-columns -->
+				</div>
+			</section>
+		</main>
+
+		<ContactCTA />
+	</div>
+</BaseLayout>
+
+<style>
+	/* ─── Layout general ─────────────────────────────────────────────── */
+	.about {
+		display: flex;
+		flex-direction: column;
+		gap: 3.5rem;
+	}
+
+	section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		color: var(--gray-200);
+	}
+
+	.section-title {
+		font-size: var(--text-xl);
+		color: var(--gray-0);
+	}
+
+	.content {
+		color: var(--gray-300);
+	}
+
+	/* ─── Mi historia ────────────────────────────────────────────────── */
+	.content p {
+		line-height: 1.7;
+		color: var(--gray-300);
+		margin-bottom: 1rem;
+	}
+
+	/* ─── Experiencia ────────────────────────────────────────────────── */
+	.experience-list {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		padding: 1.25rem;
+		background: var(--gray-999_40);
+		border: 1px solid var(--gray-800);
+		border-radius: 1rem;
+	}
+
+	.experience-item {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		padding-left: 1.25rem;
+		border-left: 3px solid var(--accent-regular);
+		border-radius: 0 0.25rem 0.25rem 0;
+	}
+
+	.experience-header {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0.25rem;
+	}
+
+	.experience-role {
+		font-weight: 600;
+		color: var(--gray-0);
+		font-size: var(--text-md);
+	}
+
+	.experience-period {
+		font-size: var(--text-sm);
+		color: var(--gray-400);
+	}
+
+	.experience-company {
+		font-size: var(--text-sm);
+		color: var(--accent-regular);
+		font-weight: 500;
+	}
+
+	.experience-bullets {
+		margin-top: 0.5rem;
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+	}
+
+	.experience-bullets li {
+		font-size: var(--text-sm);
+		line-height: 1.6;
+		color: var(--gray-300);
+		padding-left: 1.1rem;
+		position: relative;
+	}
+
+	.experience-bullets li::before {
+		content: "▸";
+		position: absolute;
+		left: 0;
+		color: var(--accent-regular);
+	}
+
+	/* ─── Formación ──────────────────────────────────────────────────── */
+	.education-uni {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0.25rem;
+		margin-bottom: 0.25rem;
+	}
+
+	.education-title {
+		font-weight: 600;
+		color: var(--gray-0);
+	}
+
+	.education-period {
+		font-size: var(--text-sm);
+		color: var(--gray-400);
+	}
+
+	.education-divider {
+		border-top: 1px solid var(--gray-800);
+		margin: 1rem 0;
+	}
+
+	.education-label {
+		font-size: var(--text-sm);
+		font-weight: 600;
+		color: var(--gray-400);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		margin-bottom: 0.75rem;
+	}
+
+	.cert-list {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.cert-item {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.cert-name {
+		font-size: var(--text-sm);
+		color: var(--gray-300);
+	}
+
+	.cert-link {
+		font-size: var(--text-sm);
+		color: var(--accent-regular);
+		text-decoration: none;
+		white-space: nowrap;
+		transition: text-decoration 0.15s;
+	}
+
+	.cert-link:hover {
+		text-decoration: underline;
+	}
+
+	/* ─── Stack técnico ──────────────────────────────────────────────── */
+	.stack-title {
+		text-align: center;
+		margin-bottom: 0.5rem;
+	}
+
+	.stack-content {
+		width: 100%;
+	}
+
+	.stack-columns {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1.5rem;
+	}
+
+	.stack-group {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.stack-label {
+		font-size: var(--text-xs, 0.7rem);
+		font-weight: 600;
+		color: var(--gray-400);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		margin-bottom: 0.25rem;
+	}
+
+	.stack-pills {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+
+	.stack-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.375rem;
+		padding: 0.35rem 0.85rem;
+		border-radius: 999rem;
+		border: 1px solid var(--gray-800);
+		background: var(--gray-900);
+		color: var(--gray-200);
+		font-size: var(--text-sm);
+		font-family: var(--font-body);
+	}
+
+	.stack-pill i {
+		font-size: 1.1rem;
+		line-height: 1;
+	}
+
+	@media (min-width: 50em) {
+		.stack-columns {
+			grid-template-columns: repeat(5, 1fr);
+			gap: 2rem;
+		}
+	}
+
+	.lang-about-pills {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 0.25rem;
+	}
+
+	.lang-about-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.3rem 0.9rem;
+		border-radius: 999rem;
+		border: 1px solid var(--accent-regular);
+		background: var(--accent-overlay);
+		color: var(--gray-200);
+		font-size: var(--text-sm);
+		font-family: var(--font-body);
+		font-weight: 500;
+	}
+
+	/* ─── Desktop ────────────────────────────────────────────────────── */
+	@media (min-width: 50em) {
+		.two-col-wrapper {
+			display: grid;
+			grid-template-columns: 1.2fr 0.8fr;
+			gap: 4rem;
+			align-items: start;
+		}
+
+		.experience-role {
+			font-size: var(--text-md);
+		}
+	}
+</style>

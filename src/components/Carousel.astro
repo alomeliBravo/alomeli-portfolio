@@ -1,0 +1,223 @@
+---
+interface Props {
+	images: string[];
+	alt?: string;
+}
+
+const { images, alt = '' } = Astro.props;
+---
+
+{images.length > 0 && (
+	<div class="gallery" data-gallery>
+		{images.map((src, i) => (
+			<button class="gallery-item" data-index={i} aria-label={`Ver imagen ${i + 1}`}>
+				<img src={src} alt={`${alt} ${i + 1}`} loading="lazy" decoding="async" />
+			</button>
+		))}
+
+		<div class="lightbox" data-lightbox aria-modal="true" role="dialog" hidden>
+			<button class="lightbox-close" data-close aria-label="Cerrar">✕</button>
+			<button class="lightbox-btn prev" data-prev aria-label="Imagen anterior">&#8592;</button>
+			<button class="lightbox-btn next" data-next aria-label="Siguiente imagen">&#8594;</button>
+			<div class="lightbox-img-wrapper">
+				<img class="lightbox-img" data-lightbox-img src="" alt="" />
+			</div>
+			<div class="lightbox-dots">
+				{images.map((_, i) => (
+					<button class:list={['dot', { active: i === 0 }]} data-dot={i} aria-label={`Ir a imagen ${i + 1}`} />
+				))}
+			</div>
+		</div>
+	</div>
+)}
+
+<script>
+	document.querySelectorAll('[data-gallery]').forEach((gallery) => {
+		const items = gallery.querySelectorAll('[data-index]') as NodeListOf<HTMLElement>;
+		const lightbox = gallery.querySelector('[data-lightbox]') as HTMLElement;
+		const img = gallery.querySelector('[data-lightbox-img]') as HTMLImageElement;
+		const dots = gallery.querySelectorAll('[data-dot]') as NodeListOf<HTMLElement>;
+		const srcs = Array.from(items).map((el) => el.querySelector('img')!.src);
+		let current = 0;
+
+		const open = (index: number) => {
+			current = index;
+			img.src = srcs[current];
+			img.alt = (items[current].querySelector('img') as HTMLImageElement).alt;
+			dots.forEach((d, i) => d.classList.toggle('active', i === current));
+			lightbox.hidden = false;
+			document.body.style.overflow = 'hidden';
+		};
+
+		const close = () => {
+			lightbox.hidden = true;
+			document.body.style.overflow = '';
+		};
+
+		const go = (dir: number) => {
+			current = (current + dir + srcs.length) % srcs.length;
+			img.src = srcs[current];
+			dots.forEach((d, i) => d.classList.toggle('active', i === current));
+		};
+
+		items.forEach((item) => {
+			item.addEventListener('click', () => open(Number(item.dataset.index)));
+		});
+
+		gallery.querySelector('[data-close]')?.addEventListener('click', close);
+		gallery.querySelector('[data-prev]')?.addEventListener('click', () => go(-1));
+		gallery.querySelector('[data-next]')?.addEventListener('click', () => go(1));
+		dots.forEach((dot, i) => dot.addEventListener('click', () => open(i)));
+
+		lightbox.addEventListener('click', (e) => {
+			if (e.target === lightbox) close();
+		});
+
+		document.addEventListener('keydown', (e) => {
+			if (lightbox.hidden) return;
+			if (e.key === 'Escape') close();
+			if (e.key === 'ArrowLeft') go(-1);
+			if (e.key === 'ArrowRight') go(1);
+		});
+	});
+</script>
+
+<style>
+	/* ─── Grid de thumbnails ─────────────────────────────────────────── */
+	.gallery {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+		gap: 0.75rem;
+	}
+
+	.gallery-item {
+		aspect-ratio: 4 / 3;
+		overflow: hidden;
+		border-radius: 0.75rem;
+		border: 1px solid var(--gray-800);
+		background: var(--gray-999_40);
+		cursor: pointer;
+		padding: 0;
+		transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+	}
+
+	.gallery-item:hover {
+		transform: scale(1.03);
+		box-shadow: var(--shadow-md);
+		border-color: var(--accent-regular);
+	}
+
+	.gallery-item img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: top;
+		display: block;
+		border-radius: 0;
+	}
+
+	/* ─── Lightbox ───────────────────────────────────────────────────── */
+	.lightbox {
+		position: fixed;
+		inset: 0;
+		z-index: 9999;
+		background: rgba(0, 0, 0, 0.92);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 2rem;
+	}
+
+	.lightbox[hidden] {
+		display: none;
+	}
+
+	.lightbox-img-wrapper {
+		max-width: 90vw;
+		max-height: 85vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.lightbox-img {
+		max-width: 100%;
+		max-height: 85vh;
+		object-fit: contain;
+		border-radius: 0.75rem;
+		box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+	}
+
+	.lightbox-close {
+		position: fixed;
+		top: 1.25rem;
+		right: 1.5rem;
+		background: rgba(255,255,255,0.1);
+		border: 1px solid rgba(255,255,255,0.15);
+		color: #fff;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 999rem;
+		cursor: pointer;
+		font-size: 1rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: background 0.15s;
+		z-index: 1;
+	}
+
+	.lightbox-close:hover {
+		background: rgba(255,255,255,0.2);
+	}
+
+	.lightbox-btn {
+		position: fixed;
+		top: 50%;
+		transform: translateY(-50%);
+		background: rgba(255,255,255,0.1);
+		border: 1px solid rgba(255,255,255,0.15);
+		color: #fff;
+		width: 3rem;
+		height: 3rem;
+		border-radius: 999rem;
+		cursor: pointer;
+		font-size: 1.25rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: background 0.15s;
+		z-index: 1;
+	}
+
+	.lightbox-btn:hover {
+		background: rgba(255,255,255,0.2);
+	}
+
+	.prev { left: 1.25rem; }
+	.next { right: 1.25rem; }
+
+	.lightbox-dots {
+		position: fixed;
+		bottom: 1.5rem;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		gap: 0.4rem;
+	}
+
+	.dot {
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 999rem;
+		background: rgba(255,255,255,0.3);
+		border: none;
+		cursor: pointer;
+		padding: 0;
+		transition: background 0.15s;
+	}
+
+	.dot.active {
+		background: #fff;
+	}
+</style>
