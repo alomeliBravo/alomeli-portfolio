@@ -57,7 +57,7 @@ const deviconMap: Record<string, string> = {
 		<div class="stack gap-10">
 
 			<header class="wrapper">
-				<a class="back-link" href="/es/work/">
+				<a class="back-link" href={`${import.meta.env.BASE_URL}es/work/`}>
 					<Icon icon="arrow-left" /> {t('work.back')}
 				</a>
 				<h1 class="project-title">{entry.data.title}</h1>

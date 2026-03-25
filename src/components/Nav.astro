@@ -6,7 +6,9 @@ import ThemeToggle from './ThemeToggle.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const base = lang === 'es' ? '/es' : '';
+const siteBase = import.meta.env.BASE_URL.replace(/\/$/, '');
+const langPrefix = lang === 'es' ? '/es' : '';
+const base = `${siteBase}${langPrefix}`;
 const alternateLang = lang === 'es' ? 'EN' : 'ES';
 const alternateLangUrl = getAlternateLangUrl(Astro.url);
 
@@ -25,7 +27,8 @@ const isCurrentPage = (href: string) => {
 	let pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
 	if (pathname.at(0) !== '/') pathname = '/' + pathname;
 	if (pathname.at(-1) !== '/') pathname += '/';
-	return pathname === href || (href !== `${base}/` && pathname.startsWith(href));
+	const relHref = href.startsWith(siteBase) ? href.slice(siteBase.length) : href;
+	return pathname === relHref || (relHref !== `${langPrefix}/` && pathname.startsWith(relHref));
 };
 ---
 

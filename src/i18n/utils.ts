@@ -1,7 +1,9 @@
 import { defaultLang, ui, type Lang, type UiKey } from './ui';
 
 export function getLangFromUrl(url: URL): Lang {
-	const [, lang] = url.pathname.split('/');
+	const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+	const pathname = url.pathname.slice(base.length) || '/';
+	const [, lang] = pathname.split('/');
 	if (lang in ui) return lang as Lang;
 	return defaultLang;
 }
@@ -13,10 +15,10 @@ export function useTranslations(lang: Lang) {
 }
 
 export function getAlternateLangUrl(url: URL): string {
-	const pathname = url.pathname;
-	if (pathname.startsWith('/es')) {
-		const stripped = pathname.replace(/^\/es/, '');
-		return stripped || '/';
+	const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+	const withoutBase = url.pathname.slice(base.length) || '/';
+	if (withoutBase.startsWith('/es')) {
+		return `${base}${withoutBase.replace(/^\/es/, '') || '/'}`;
 	}
-	return `/es${pathname === '/' ? '' : pathname}`;
+	return `${base}/es${withoutBase === '/' ? '' : withoutBase}`;
 }
