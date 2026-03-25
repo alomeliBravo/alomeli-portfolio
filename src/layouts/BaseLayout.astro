@@ -35,8 +35,9 @@ const bgVars = [
 ].join(';');
 ---
 
-<html lang={lang} style={bgVars}>
+<html lang={lang}>
 	<head>
+		<Fragment set:html={`<style>:root{${bgVars}}</style>`} />
 		<MainHead title={title} description={description} />
 	</head>
 	<body>
@@ -51,7 +52,7 @@ const bgVars = [
 			addEventListener('load', () => document.documentElement.classList.add('loaded'));
 		</script>
 
-		<style>
+		<style is:global>
 			:root {
 				--_placeholder-bg: linear-gradient(transparent, transparent);
 				--bg-image-main: var(--_bg-main-light-800);
