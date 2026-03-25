@@ -3,6 +3,8 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://alomeliBravo.github.io',
+	base: '/alomeli-portfolio',
 	i18n: {
 		defaultLocale: 'en',
 		locales: ['en', 'es'],
