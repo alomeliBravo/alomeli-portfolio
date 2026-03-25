@@ -1,0 +1,62 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const base = lang === 'es' ? '/es' : '';
+---
+
+<BaseLayout title="404 | Angel Lomelí" description="Page not found">
+	<div class="wrapper not-found">
+		<h1 class="code">404</h1>
+		<p class="message">{lang === 'es' ? 'Esta página no existe.' : "This page doesn't exist."}</p>
+		<a href={`${base}/`} class="back-home">
+			{lang === 'es' ? '← Volver al inicio' : '← Back to home'}
+		</a>
+	</div>
+</BaseLayout>
+
+<style>
+	.not-found {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 1.5rem;
+		padding: 6rem 1.5rem;
+		text-align: center;
+		min-height: 40vh;
+	}
+
+	.code {
+		font-size: clamp(5rem, 20vw, 10rem);
+		font-weight: 800;
+		color: var(--accent-regular);
+		line-height: 1;
+		opacity: 0.8;
+	}
+
+	.message {
+		font-size: var(--text-lg);
+		color: var(--gray-300);
+	}
+
+	.back-home {
+		display: inline-block;
+		padding: 0.6rem 1.4rem;
+		border-radius: 999rem;
+		border: 1px solid var(--gray-800);
+		color: var(--gray-300);
+		text-decoration: none;
+		font-size: var(--text-sm);
+		font-weight: 600;
+		background: var(--gradient-subtle);
+		transition: color var(--theme-transition), border-color var(--theme-transition);
+	}
+
+	.back-home:hover {
+		color: var(--gray-0);
+		border-color: var(--gray-600);
+	}
+</style>
