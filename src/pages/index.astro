@@ -1,0 +1,312 @@
+---
+import { getCollection } from 'astro:content';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import CallToAction from '../components/CallToAction.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import Grid from '../components/Grid.astro';
+import Hero from '../components/Hero.astro';
+import Icon from '../components/Icon.astro';
+import Pill from '../components/Pill.astro';
+import PortfolioPreview from '../components/PortfolioPreview.astro';
+import Skills from '../components/Skills.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const base = lang === 'es' ? '/es' : '';
+
+const projects = (await getCollection('work'))
+	.filter((e) => e.id.startsWith(`${lang}/`))
+	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+	.slice(0, 4);
+---
+
+<BaseLayout>
+	<div class="stack gap-20 lg:gap-48">
+		<div class="wrapper stack gap-8 lg:gap-20">
+			<header class="hero">
+				<Hero
+					title={t('index.hero.title')}
+					tagline={t('index.hero.tagline')}
+					align="start"
+				>
+					<div class="roles">
+						<Pill><Icon icon="terminal-window" size="1.33em" /> {t('index.hero.pill.backend')}</Pill>
+						<Pill><Icon icon="code" size="1.33em" /> {t('index.hero.pill.fullstack')}</Pill>
+						<Pill><Icon icon="strategy" size="1.33em" /> {t('index.hero.pill.architecture')}</Pill>
+					</div>
+					<div class="hero-ctas">
+						<a href="#projects" class="cta-primary">{t('index.hero.cta.projects')}</a>
+						<a href="https://www.linkedin.com/in/angel-daniel-lomelí-bravo-3a5648327/" target="_blank" rel="noopener noreferrer" class="cta-secondary">{t('index.hero.cta.linkedin')}</a>
+					</div>
+				</Hero>
+			</header>
+
+			<Skills />
+
+			<section class="techstack-section">
+				<h3 class="techstack-title">{t('index.stack.title')}</h3>
+				<div class="techstack-pills">
+					<span class="tech-pill"><i class="devicon-nestjs-plain colored"></i> NestJS</span>
+					<span class="tech-pill"><i class="devicon-spring-plain colored"></i> Spring Boot</span>
+					<span class="tech-pill"><i class="devicon-java-plain colored"></i> Java</span>
+					<span class="tech-pill"><i class="devicon-nodejs-plain colored"></i> Node.js</span>
+					<span class="tech-pill"><i class="devicon-express-original"></i> Express</span>
+					<span class="tech-pill"><i class="devicon-angular-plain colored"></i> Angular</span>
+					<span class="tech-pill"><i class="devicon-typescript-plain colored"></i> TypeScript</span>
+					<span class="tech-pill"><i class="devicon-javascript-plain colored"></i> JavaScript</span>
+					<span class="tech-pill"><i class="devicon-postgresql-plain colored"></i> PostgreSQL</span>
+					<span class="tech-pill"><i class="devicon-mongodb-plain colored"></i> MongoDB</span>
+					<span class="tech-pill"><i class="devicon-redis-plain colored"></i> Redis</span>
+					<span class="tech-pill"><i class="devicon-docker-plain colored"></i> Docker</span>
+					<span class="tech-pill"><i class="devicon-git-plain colored"></i> Git</span>
+				</div>
+				<div class="lang-pills">
+					<span class="lang-pill">{t('about.languages.spanish')}</span>
+					<span class="lang-pill">{t('about.languages.english')}</span>
+				</div>
+			</section>
+		</div>
+
+		<div class="wrapper stack gap-20 lg:gap-48">
+			<section id="projects" class="section with-background with-cta">
+				<header class="section-header stack gap-2 lg:gap-4">
+					<h3>{t('index.projects.title')}</h3>
+					<p>{t('index.projects.subtitle')}</p>
+				</header>
+
+				<div class="gallery">
+					<Grid>
+						{
+							projects.map((project) => (
+								<li>
+									<PortfolioPreview project={project} lang={lang} />
+								</li>
+							))
+						}
+					</Grid>
+				</div>
+
+				<div class="cta">
+					<CallToAction href={`${base}/work/`}>
+						{t('index.projects.viewAll')}
+						<Icon icon="arrow-right" size="1.2em" />
+					</CallToAction>
+				</div>
+			</section>
+		</div>
+
+		<ContactCTA />
+	</div>
+</BaseLayout>
+
+<style>
+	.hero {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2rem;
+		text-align: center;
+	}
+
+	.roles {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.5rem;
+		margin-top: 0.5rem;
+	}
+
+	.hero-ctas {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin-top: 0.5rem;
+	}
+
+	.cta-primary {
+		display: inline-block;
+		padding: 0.6rem 1.4rem;
+		border-radius: 999rem;
+		background-color: var(--accent-regular);
+		color: var(--accent-text-over);
+		text-decoration: none;
+		font-weight: 600;
+		font-size: var(--text-sm);
+		transition: background-color var(--theme-transition);
+	}
+
+	.cta-primary:hover,
+	.cta-primary:focus {
+		background-color: var(--accent-dark);
+	}
+
+	.cta-secondary {
+		display: inline-block;
+		padding: 0.6rem 1.4rem;
+		border-radius: 999rem;
+		border: 1px solid var(--gray-800);
+		color: var(--gray-300);
+		text-decoration: none;
+		font-weight: 600;
+		font-size: var(--text-sm);
+		background: var(--gradient-subtle);
+		transition: color var(--theme-transition), border-color var(--theme-transition);
+	}
+
+	.cta-secondary:hover,
+	.cta-secondary:focus {
+		color: var(--gray-0);
+		border-color: var(--gray-600);
+	}
+
+	@media (min-width: 50em) {
+		.hero {
+			padding-inline: 2.5rem;
+		}
+
+		.roles {
+			display: flex;
+		}
+	}
+
+	/* ====================================================== */
+
+	.section {
+		display: grid;
+		gap: 2rem;
+	}
+
+	.with-background {
+		position: relative;
+	}
+
+	.with-background::before {
+		--hero-bg: var(--bg-image-subtle-2);
+
+		content: '';
+		position: absolute;
+		pointer-events: none;
+		left: 50%;
+		width: 100vw;
+		aspect-ratio: calc(2.25 / var(--bg-scale));
+		top: 0;
+		transform: translateY(-75%) translateX(-50%);
+		background:
+			url('/assets/backgrounds/noise.png') top center/220px repeat,
+			var(--hero-bg) center center / var(--bg-gradient-size) no-repeat,
+			var(--gray-999);
+		background-blend-mode: overlay, normal, normal, normal;
+		mix-blend-mode: var(--bg-blend-mode);
+		z-index: -1;
+	}
+
+	.section-header {
+		justify-self: center;
+		text-align: center;
+		max-width: 50ch;
+		font-size: var(--text-md);
+		color: var(--gray-300);
+	}
+
+	.section-header h3 {
+		font-size: var(--text-2xl);
+	}
+
+	/* ─── Stack técnico home ─────────────────────────────────────────── */
+	.techstack-section {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.25rem;
+		padding: 2rem 0;
+	}
+
+	.techstack-title {
+		font-size: var(--text-lg);
+		font-weight: 600;
+		color: var(--gray-0);
+		text-align: center;
+	}
+
+	.techstack-pills {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.5rem;
+	}
+
+	.tech-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.3rem 0.8rem;
+		border-radius: 999rem;
+		border: 1px solid var(--gray-800);
+		background: var(--gray-999_40);
+		color: var(--gray-200);
+		font-size: var(--text-sm);
+		font-family: var(--font-body);
+	}
+
+	.tech-pill i {
+		font-size: 1rem;
+		line-height: 1;
+	}
+
+	.lang-pills {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.lang-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.3rem 0.9rem;
+		border-radius: 999rem;
+		border: 1px solid var(--accent-regular);
+		background: var(--accent-overlay);
+		color: var(--gray-200);
+		font-size: var(--text-sm);
+		font-family: var(--font-body);
+		font-weight: 500;
+	}
+
+	@media (min-width: 50em) {
+		.section {
+			grid-template-columns: repeat(4, 1fr);
+			grid-template-areas: 'header header header header' 'gallery gallery gallery gallery';
+			gap: 5rem;
+		}
+
+		.section.with-cta {
+			grid-template-areas: 'header header header cta' 'gallery gallery gallery gallery';
+		}
+
+		.section-header {
+			grid-area: header;
+			font-size: var(--text-lg);
+		}
+
+		.section-header h3 {
+			font-size: var(--text-4xl);
+		}
+
+		.with-cta .section-header {
+			justify-self: flex-start;
+			text-align: left;
+		}
+
+		.gallery {
+			grid-area: gallery;
+		}
+
+		.cta {
+			grid-area: cta;
+		}
+	}
+</style>

@@ -1,0 +1,114 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+	project: CollectionEntry<'work'>;
+	lang?: Lang;
+}
+
+const { project, lang = 'en' } = Astro.props;
+const { data, id } = project;
+const slug = id.split('/').slice(1).join('/');
+const base = lang === 'es' ? '/es' : '';
+---
+
+<a class="card" href={`${base}/work/${slug}`}>
+	<div class="card-header">
+		<span class="title">{data.title}</span>
+		<span class="arrow">→</span>
+	</div>
+	<p class="description">{data.description}</p>
+	<div class="tags">
+		{data.tags.map((t) => <span class="tag">{t}</span>)}
+	</div>
+</a>
+
+<style>
+	.card {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		padding: 1.5rem;
+		background: var(--gradient-subtle);
+		border: 1px solid var(--gray-800);
+		border-radius: 0.75rem;
+		overflow: hidden;
+		box-shadow: var(--shadow-sm);
+		text-decoration: none;
+		font-family: var(--font-brand);
+		transition: box-shadow var(--theme-transition), border-color var(--theme-transition);
+		height: 100%;
+	}
+
+	.card:hover {
+		box-shadow: var(--shadow-md);
+		border-color: var(--gray-600);
+	}
+
+	.card-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: 1rem;
+	}
+
+	.title {
+		font-size: var(--text-lg);
+		font-weight: 600;
+		color: var(--gray-0);
+		line-height: 1.2;
+	}
+
+	.arrow {
+		font-size: var(--text-lg);
+		color: var(--accent-regular);
+		flex-shrink: 0;
+		transition: transform var(--theme-transition);
+	}
+
+	.card:hover .arrow {
+		transform: translateX(4px);
+	}
+
+	.description {
+		font-size: var(--text-sm);
+		color: var(--gray-300);
+		line-height: 1.6;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		font-family: var(--font-body);
+		flex: 1;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.375rem;
+	}
+
+	.tag {
+		font-size: var(--text-xs, 0.75rem);
+		font-family: var(--font-body);
+		color: var(--accent-text-over);
+		background-color: var(--accent-regular);
+		border: 1px solid var(--accent-regular);
+		border-radius: 999rem;
+		padding: 0.2rem 0.6rem;
+		white-space: nowrap;
+		opacity: 0.9;
+	}
+
+	@media (min-width: 50em) {
+		.card {
+			border-radius: 1.5rem;
+			padding: 2rem;
+		}
+
+		.title {
+			font-size: var(--text-xl);
+		}
+	}
+</style>
