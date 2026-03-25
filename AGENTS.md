@@ -42,6 +42,7 @@ Portfolio personal. Stack: Astro + Tailwind CSS.
 - `stack`, `wrapper`, `gap-*` (cuando no es Tailwind) — clases utilitarias del template base de Astro definidas en `src/styles/global.css`. Se usan en páginas y layouts como alternativa a Tailwind porque el template ya las define globalmente.
 - Bloques `<style>` en TODOS los componentes — el design system usa CSS custom properties (`var(--gray-*)`, `var(--accent-*)`, `var(--font-*)`, `var(--text-*)`) que Tailwind no conoce. Migrar requeriría configurar Tailwind con todas las variables, lo cual está fuera del scope del proyecto.
 - `<style>` inline en `Icon.astro` para `--size` — CSS custom property que no es posible pasar con utilidades de Tailwind.
+- `style={bgVars}` inline en `BaseLayout.astro` sobre `<html>` — inyecta CSS custom properties con las rutas de background images prefijadas con `import.meta.env.BASE_URL`, necesario para el deploy en GitHub Pages bajo subdirectorio. No es posible expresar `url()` dinámicos con Tailwind ni con `<style>` estático.
 
 ## Lo que NO debe existir
 

@@ -5,11 +5,13 @@ interface Props {
 }
 
 const { images, alt = '' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const resolvedImages = images.map((src) => src.startsWith('http') ? src : `${base}${src}`);
 ---
 
-{images.length > 0 && (
+{resolvedImages.length > 0 && (
 	<div class="gallery" data-gallery>
-		{images.map((src, i) => (
+		{resolvedImages.map((src, i) => (
 			<button class="gallery-item" data-index={i} aria-label={`Ver imagen ${i + 1}`}>
 				<img src={src} alt={`${alt} ${i + 1}`} loading="lazy" decoding="async" />
 			</button>
@@ -23,7 +25,7 @@ const { images, alt = '' } = Astro.props;
 				<img class="lightbox-img" data-lightbox-img src="" alt="" />
 			</div>
 			<div class="lightbox-dots">
-				{images.map((_, i) => (
+				{resolvedImages.map((_, i) => (
 					<button class:list={['dot', { active: i === 0 }]} data-dot={i} aria-label={`Ir a imagen ${i + 1}`} />
 				))}
 			</div>
