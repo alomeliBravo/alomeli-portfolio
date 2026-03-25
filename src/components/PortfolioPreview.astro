@@ -10,7 +10,8 @@ interface Props {
 const { project, lang = 'en' } = Astro.props;
 const { data, id } = project;
 const slug = id.split('/').slice(1).join('/');
-const base = lang === 'es' ? '/es' : '';
+const siteBase = import.meta.env.BASE_URL.replace(/\/$/, '');
+const base = lang === 'es' ? `${siteBase}/es` : siteBase;
 ---
 
 <a class="card" href={`${base}/work/${slug}`}>
