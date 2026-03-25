@@ -18,5 +18,5 @@ export function getAlternateLangUrl(url: URL): string {
 		const stripped = pathname.replace(/^\/es/, '');
 		return stripped || '/';
 	}
-	return `/es${pathname === '/' ? '' : pathname}` || '/es';
+	return `/es${pathname === '/' ? '' : pathname}`;
 }

@@ -11,6 +11,8 @@ export const ui = {
 		'nav.home': 'Home',
 		'nav.projects': 'Projects',
 		'nav.about': 'About',
+		'nav.menuToggle': 'Menu',
+		'nav.switchLang': 'Switch to Spanish',
 
 		// Footer
 		'footer.built': 'Designed and built with',
@@ -109,6 +111,8 @@ export const ui = {
 		'nav.home': 'Inicio',
 		'nav.projects': 'Proyectos',
 		'nav.about': 'Sobre mí',
+		'nav.menuToggle': 'Menú',
+		'nav.switchLang': 'Cambiar a inglés',
 
 		// Footer
 		'footer.built': 'Diseñado y desarrollado con',
